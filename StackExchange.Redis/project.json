@@ -16,6 +16,16 @@
     "allowUnsafe": true
   },
   "frameworks": {
+    "net35": {
+      "dependencies": {
+        "AsyncBridge.Net35": "0.2.0",
+        "NetLegacySupport.Tuple": "1.1.0",
+        "TaskParallelLibrary": "1.0.2856"
+      },
+      "frameworkAssemblies": {
+        "System.Net": "3.5.0"
+      }
+    },
     "net40": {
       "dependencies": {
         "Microsoft.Bcl": "1.1.10",

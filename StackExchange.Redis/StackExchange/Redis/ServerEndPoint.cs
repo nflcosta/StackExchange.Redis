@@ -619,7 +619,7 @@ namespace StackExchange.Redis
             }
             Message msg;
             string password = multiplexer.RawConfig.Password;
-            if (!string.IsNullOrWhiteSpace(password))
+            if (!StringExtensions.IsNullOrWhiteSpace(password))
             {
                 multiplexer.LogLocked(log, "Authenticating (password)");
                 msg = Message.Create(-1, CommandFlags.FireAndForget, RedisCommand.AUTH, (RedisValue)password);
@@ -629,10 +629,10 @@ namespace StackExchange.Redis
             if (multiplexer.CommandMap.IsAvailable(RedisCommand.CLIENT))
             {
                 string name = multiplexer.ClientName;
-                if (!string.IsNullOrWhiteSpace(name))
+                if (!StringExtensions.IsNullOrWhiteSpace(name))
                 {
                     name = nameSanitizer.Replace(name, "");
-                    if (!string.IsNullOrWhiteSpace(name))
+                    if (!StringExtensions.IsNullOrWhiteSpace(name))
                     {
                         multiplexer.LogLocked(log, "Setting client name: {0}", name);
                         msg = Message.Create(-1, CommandFlags.FireAndForget, RedisCommand.CLIENT, RedisLiterals.SETNAME, (RedisValue)name);

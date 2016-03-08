@@ -56,7 +56,7 @@ namespace StackExchange.Redis
             internal static Version ParseVersion(string key, string value)
             {
                 Version tmp;
-                if (!System.Version.TryParse(value, out tmp)) throw new ArgumentOutOfRangeException("Keyword '" + key + "' requires a version value");
+                if (!VersionExtensions.TryParse(value, out tmp)) throw new ArgumentOutOfRangeException("Keyword '" + key + "' requires a version value");
                 return tmp;
             }
             internal static Proxy ParseProxy(string key, string value)
@@ -430,7 +430,7 @@ namespace StackExchange.Redis
                         else
                         {
                             multiplexer.LogLocked(log, "Using DNS to resolve '{0}'...", dns.Host);
-#if NET40
+#if NET35 || NET40 
                             var ips = Dns.GetHostAddresses(dns.Host);
 #else
                             var ips = await Dns.GetHostAddressesAsync(dns.Host).ObserveErrors().ForAwait();
@@ -457,7 +457,7 @@ namespace StackExchange.Redis
         {
             if (value == null) return;
             string s = Format.ToString(value);
-            if (!string.IsNullOrWhiteSpace(s))
+            if (!StringExtensions.IsNullOrWhiteSpace(s))
             {
                 if (sb.Length != 0) sb.Append(',');
                 sb.Append(s);
@@ -467,7 +467,7 @@ namespace StackExchange.Redis
         static void Append(StringBuilder sb, string prefix, object value)
         {
             string s = value?.ToString();
-            if (!string.IsNullOrWhiteSpace(s))
+            if (!StringExtensions.IsNullOrWhiteSpace(s))
             {
                 if (sb.Length != 0) sb.Append(',');
                 if(!string.IsNullOrEmpty(prefix))
@@ -511,7 +511,7 @@ namespace StackExchange.Redis
                 throw new ArgumentNullException(nameof(configuration));
             }
 
-            if (string.IsNullOrWhiteSpace(configuration))
+            if (StringExtensions.IsNullOrWhiteSpace(configuration))
             {
                 throw new ArgumentException("is empty", configuration);
             }
@@ -525,7 +525,7 @@ namespace StackExchange.Redis
             {
                 var option = paddedOption.Trim();
 
-                if (string.IsNullOrWhiteSpace(option)) continue;
+                if (StringExtensions.IsNullOrWhiteSpace(option)) continue;
 
                 // check for special tokens
                 int idx = option.IndexOf('=');

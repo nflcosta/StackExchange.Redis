@@ -113,7 +113,7 @@ namespace StackExchange.Redis
         partial void OnCompletedAsync();
         private void ProcessAsyncCompletionQueueImpl()
         {
-#if NET40
+#if NET35 || NET40 
             int currentThread = Thread.CurrentThread.ManagedThreadId;
 #else
             int currentThread = Environment.CurrentManagedThreadId;

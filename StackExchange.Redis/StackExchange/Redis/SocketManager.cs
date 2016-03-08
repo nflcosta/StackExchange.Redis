@@ -130,7 +130,7 @@ namespace StackExchange.Redis
         /// </summary>
         public SocketManager(string name, bool useHighPrioritySocketThreads)
         {
-            if (string.IsNullOrWhiteSpace(name)) name = GetType().Name;
+            if (StringExtensions.IsNullOrWhiteSpace(name)) name = GetType().Name;
             this.name = name;
             this.useHighPrioritySocketThreads = useHighPrioritySocketThreads;
 
@@ -199,12 +199,14 @@ namespace StackExchange.Redis
                     });
 #else
                     CompletionTypeHelper.RunWithCompletionType(
-                        cb => {
+                        cb =>
+                        {
                             multiplexer.LogLocked(log, "BeginConnect: {0}", formattedEndpoint);
                             return socket.BeginConnect(dnsEndpoint.Host, dnsEndpoint.Port, cb, tuple);
                         },
-                        ar => {
-                            multiplexer.LogLocked(log, "EndConnect: {0}", formattedEndpoint);                            
+                        ar =>
+                        {
+                            multiplexer.LogLocked(log, "EndConnect: {0}", formattedEndpoint);
                             EndConnectImpl(ar, multiplexer, log, tuple);
                             multiplexer.LogLocked(log, "Connect complete: {0}", formattedEndpoint);
                         },
@@ -222,11 +224,13 @@ namespace StackExchange.Redis
                     });
 #else
                     CompletionTypeHelper.RunWithCompletionType(
-                        cb => {
+                        cb =>
+                        {
                             multiplexer.LogLocked(log, "BeginConnect: {0}", formattedEndpoint);
                             return socket.BeginConnect(endpoint, cb, tuple);
                         },
-                        ar => {
+                        ar =>
+                        {
                             multiplexer.LogLocked(log, "EndConnect: {0}", formattedEndpoint);
                             EndConnectImpl(ar, multiplexer, log, tuple);
                             multiplexer.LogLocked(log, "Connect complete: {0}", formattedEndpoint);
@@ -234,7 +238,7 @@ namespace StackExchange.Redis
                         connectCompletionType);
 #endif
                 }
-            } 
+            }
             catch (NotImplementedException ex)
             {
                 if (!(endpoint is IPEndPoint))
@@ -356,7 +360,7 @@ namespace StackExchange.Redis
                     }
                 }
             }
-            catch(Exception outer)
+            catch (Exception outer)
             {
                 ConnectionMultiplexer.TraceWithoutContext(outer.Message);
                 if (tuple != null)
@@ -375,7 +379,7 @@ namespace StackExchange.Redis
         partial void OnShutdown(Socket socket);
 
         partial void ShouldIgnoreConnect(ISocketCallback callback, ref bool ignore);
-        
+
         partial void ShouldForceConnectCompletionType(ref CompletionType completionType);
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2202:Do not dispose objects multiple times")]
@@ -388,7 +392,11 @@ namespace StackExchange.Redis
 #if !CORE_CLR
                 try { socket.Close(); } catch { }
 #endif
+
+#if !NET35
                 try { socket.Dispose(); } catch { }
+#endif
+
             }
         }
 

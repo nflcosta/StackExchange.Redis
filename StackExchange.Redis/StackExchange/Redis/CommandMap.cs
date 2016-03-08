@@ -206,7 +206,7 @@ namespace StackExchange.Redis
                     if (value != name) haveDelta = true;
                     // TODO: bug?
                     haveDelta = true;
-                    byte[] val = string.IsNullOrWhiteSpace(value) ? null : Encoding.UTF8.GetBytes(value);
+                    byte[] val = StringExtensions.IsNullOrWhiteSpace(value) ? null : Encoding.UTF8.GetBytes(value);
                     map[idx] = val;
                 }
             }

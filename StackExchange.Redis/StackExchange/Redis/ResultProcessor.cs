@@ -508,7 +508,7 @@ namespace StackExchange.Redis
                         if (message != null && message.Command == RedisCommand.INFO)
                         {
                             string info = result.GetString(), line;
-                            if (string.IsNullOrWhiteSpace(info))
+                            if (StringExtensions.IsNullOrWhiteSpace(info))
                             {
                                 SetResult(message, true);
                                 return true;
@@ -519,7 +519,7 @@ namespace StackExchange.Redis
                             {
                                 while ((line = reader.ReadLine()) != null)
                                 {
-                                    if (string.IsNullOrWhiteSpace(line) || line.StartsWith("# ")) continue;
+                                    if (StringExtensions.IsNullOrWhiteSpace(line) || line.StartsWith("# ")) continue;
 
                                     string val;
                                     if ((val = Extract(line, "role:")) != null)
@@ -548,7 +548,7 @@ namespace StackExchange.Redis
                                     else if ((val = Extract(line, "redis_version:")) != null)
                                     {
                                         Version version;
-                                        if (Version.TryParse(val, out version))
+                                        if (VersionExtensions.TryParse(val, out version))
                                         {
                                             server.Version = version;
                                             server.Multiplexer.Trace("Auto-configured version: " + version);
@@ -864,7 +864,7 @@ namespace StackExchange.Redis
                     {
                         while ((line = reader.ReadLine()) != null)
                         {
-                            if (string.IsNullOrWhiteSpace(line)) continue;
+                            if (StringExtensions.IsNullOrWhiteSpace(line)) continue;
                             if (line.StartsWith("# "))
                             {
                                 category = Normalize(line.Substring(2));
@@ -887,7 +887,7 @@ namespace StackExchange.Redis
 
             static string Normalize(string category)
             {
-                return string.IsNullOrWhiteSpace(category) ? "miscellaneous" : category.Trim();
+                return StringExtensions.IsNullOrWhiteSpace(category) ? "miscellaneous" : category.Trim();
             }
         }
 

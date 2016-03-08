@@ -14,7 +14,7 @@ namespace BasicTest
     {
         static void Main(string[] args)
         {
-            int AsyncOpsQty = 10000;
+            int AsyncOpsQty = 1000000;
             if(args.Length == 1)
             {
                 int tmp;
@@ -28,7 +28,7 @@ namespace BasicTest
         }
         static void MassiveBulkOpsAsync(int AsyncOpsQty, bool preserveOrder, bool withContinuation)
         {            
-            using (var muxer = ConnectionMultiplexer.Connect("localhost,resolvedns=1"))
+            using (var muxer = ConnectionMultiplexer.Connect("192.168.99.100:32768"))
             {
                 muxer.PreserveAsyncOrder = preserveOrder;
                 RedisKey key = "MBOA";

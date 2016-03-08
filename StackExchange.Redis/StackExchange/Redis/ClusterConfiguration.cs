@@ -62,7 +62,7 @@ namespace StackExchange.Redis
         /// </summary>
         public static bool TryParse(string range, out SlotRange value)
         {
-            if (string.IsNullOrWhiteSpace(range))
+            if (StringExtensions.IsNullOrWhiteSpace(range))
             {
                 value = default(SlotRange);
                 return false;
@@ -179,7 +179,7 @@ namespace StackExchange.Redis
                 string line;
                 while ((line = reader.ReadLine()) != null)
                 {
-                    if (string.IsNullOrWhiteSpace(line)) continue;
+                    if (StringExtensions.IsNullOrWhiteSpace(line)) continue;
                     var node = new ClusterNode(this, line, origin);
                     
                     // Be resilient to ":0 {master,slave},fail,noaddr" nodes
@@ -250,7 +250,7 @@ namespace StackExchange.Redis
         {
             get
             {
-                if (string.IsNullOrWhiteSpace(nodeId)) return null;
+                if (StringExtensions.IsNullOrWhiteSpace(nodeId)) return null;
                 foreach (var pair in nodeLookup)
                 {
                     if (pair.Value.NodeId == nodeId) return pair.Value;
@@ -324,7 +324,7 @@ namespace StackExchange.Redis
             NodeId = parts[0];
             IsSlave = flags.Contains("slave");
             IsNoAddr = flags.Contains("noaddr");
-            ParentNodeId = string.IsNullOrWhiteSpace(parts[3]) ? null : parts[3];
+            ParentNodeId = StringExtensions.IsNullOrWhiteSpace(parts[3]) ? null : parts[3];
 
             List<SlotRange> slots = null;
 

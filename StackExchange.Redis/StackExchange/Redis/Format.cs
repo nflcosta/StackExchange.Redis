@@ -158,7 +158,7 @@ namespace StackExchange.Redis
         }
         internal static EndPoint TryParseEndPoint(string endpoint)
         {
-            if (string.IsNullOrWhiteSpace(endpoint)) return null;
+            if (StringExtensions.IsNullOrWhiteSpace(endpoint)) return null;
             string host;
             int port;
             int i = endpoint.IndexOf(':');
@@ -174,7 +174,7 @@ namespace StackExchange.Redis
                 if (string.IsNullOrEmpty(portAsString)) return null;
                 if (!Format.TryParseInt32(portAsString, out port)) return null;
             }
-            if (string.IsNullOrWhiteSpace(host)) return null;
+            if (StringExtensions.IsNullOrWhiteSpace(host)) return null;
 
             return Format.ParseEndPoint(host, port);
         }

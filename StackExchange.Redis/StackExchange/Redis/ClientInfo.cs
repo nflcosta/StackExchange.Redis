@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Net;
-
 namespace StackExchange.Redis
 {
     /// <summary>
@@ -110,7 +109,7 @@ namespace StackExchange.Redis
         /// <summary>
         /// an unique 64-bit client ID (introduced in Redis 2.8.12).
         /// </summary>
-        public long Id { get;private set; }
+        public long Id { get; private set; }
 
         /// <summary>
         /// Format the object as a string
@@ -118,7 +117,7 @@ namespace StackExchange.Redis
         public override string ToString()
         {
             string addr = Format.ToString(Address);
-            return string.IsNullOrWhiteSpace(Name) ? addr : (addr + " - " + Name);
+            return StringExtensions.IsNullOrWhiteSpace(Name) ? addr : (addr + " - " + Name);
         }
 
         /// <summary>
@@ -130,7 +129,7 @@ namespace StackExchange.Redis
             {
                 if (SubscriptionCount != 0 || PatternSubscriptionCount != 0) return ClientType.PubSub;
                 if ((Flags & ClientFlags.Slave) != 0) return ClientType.Slave;
-                return ClientType.Normal;                
+                return ClientType.Normal;
             }
         }
 
@@ -198,7 +197,7 @@ namespace StackExchange.Redis
         {
             protected override bool SetResultCore(PhysicalConnection connection, Message message, RawResult result)
             {
-                switch(result.Type)
+                switch (result.Type)
                 {
                     case ResultType.BulkString:
 

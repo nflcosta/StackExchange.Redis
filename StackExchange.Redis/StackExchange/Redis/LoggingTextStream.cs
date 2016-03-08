@@ -19,7 +19,7 @@
         public LoggingTextStream(Stream stream, string category, Stream echo)
         {
             if (stream == null) throw new ArgumentNullException("stream");
-            if (string.IsNullOrWhiteSpace(category)) category = GetType().Name;
+            if (StringExtensions.IsNullOrWhiteSpace(category)) category = GetType().Name;
             this.stream = stream;
             this.category = category;
             this.echo = echo;

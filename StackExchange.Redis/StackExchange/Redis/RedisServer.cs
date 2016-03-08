@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 
 namespace StackExchange.Redis
 {
-
     internal sealed partial class RedisServer : RedisBase, IServer
     {
         private readonly ServerEndPoint server;
@@ -580,7 +579,7 @@ namespace StackExchange.Redis
 
             // attempt to cease having an opinion on the master; will resume that when replication completes
             // (note that this may fail; we aren't depending on it)
-            if (!string.IsNullOrWhiteSpace(configuration.TieBreaker)
+            if (!StringExtensions.IsNullOrWhiteSpace(configuration.TieBreaker)
                 && this.multiplexer.CommandMap.IsAvailable(RedisCommand.DEL))
             {
                 var del = Message.Create(0, CommandFlags.FireAndForget | CommandFlags.NoRedirect, RedisCommand.DEL, (RedisKey)configuration.TieBreaker);

@@ -741,7 +741,7 @@ namespace StackExchange.Redis
                 X509KeyStorageFlags? flags = null;
                 if (!string.IsNullOrEmpty(pfxStorageFlags))
                 {
-                    flags = Enum.Parse(typeof(X509KeyStorageFlags), pfxStorageFlags) as X509KeyStorageFlags?;
+                    flags = System.Enum.Parse(typeof(X509KeyStorageFlags), pfxStorageFlags) as X509KeyStorageFlags?;
                 }
 
                 if (!string.IsNullOrEmpty(pfxPath) && File.Exists(pfxPath))
@@ -769,11 +769,11 @@ namespace StackExchange.Redis
                 {
                     Multiplexer.LogLocked(log, "Configuring SSL");
                     var host = config.SslHost;
-                    if (string.IsNullOrWhiteSpace(host)) host = Format.ToStringHostOnly(Bridge.ServerEndPoint.EndPoint);
+                    if (StringExtensions.IsNullOrWhiteSpace(host)) host = Format.ToStringHostOnly(Bridge.ServerEndPoint.EndPoint);
 
                     var ssl = new SslStream(stream, false, config.CertificateValidationCallback,
                         config.CertificateSelectionCallback ?? GetAmbientCertificateCallback()
-#if !__MonoCS__
+#if !__MonoCS__ && !NET35
                         , EncryptionPolicy.RequireEncryption
 #endif
                         );
